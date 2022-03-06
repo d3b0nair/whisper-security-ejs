@@ -15,7 +15,6 @@ module.exports = function (passport) {
         scope: ["openid", "email", "profile"],
       },
       async (accessToken, refreshToken, profile, done) => {
-        //get the user data from google
         const newUser = {
           google_id: profile.id,
           email: profile.emails[0].value,
@@ -50,10 +49,8 @@ module.exports = function (passport) {
           facebook_id: profile.id,
           email: profile.emails[0].value,
         };
-
         try {
           let user = await User.findOne({ facebook_id: profile.id });
-
           if (user) {
             done(null, user);
           } else {
