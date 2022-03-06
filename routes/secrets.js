@@ -12,7 +12,6 @@ router
   })
   .post((req, res) => {
     const submitedSecret = req.body.secret;
-    console.log(submitedSecret);
     const autor = req.user.id;
     User.findOneAndUpdate(
       { _id: autor },

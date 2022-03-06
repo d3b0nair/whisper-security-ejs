@@ -11,10 +11,13 @@ router.route("/secrets").get((req, res) => {
       console.log(err);
     } else {
       if (foundUsers) {
-        const allSecrets = foundUsers.map((user) =>
-          user.secrets.map((secret) => secret)
+        const usersWithSecrets = foundUsers.filter(
+          (user) => user.secrets.length > 0
         );
-        res.render("secrets", { secrets: allSecrets[0] });
+        const allSecrets = usersWithSecrets.flatMap((user) => {
+          return user.secrets;
+        });
+        res.render("secrets", { secrets: allSecrets });
       }
     }
   });
