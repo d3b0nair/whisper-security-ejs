@@ -15,6 +15,18 @@ router.get(
   }
 );
 
+router.get(
+  "/facebook",
+  passport.authenticate("facebook", { scope: ["email"] })
+);
+router.get(
+  "/facebook/whisper",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  function (req, res) {
+    res.redirect("/secrets");
+  }
+);
+
 router
   .route("/register")
   .get((req, res) => {
