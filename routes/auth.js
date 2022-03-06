@@ -27,6 +27,16 @@ router.get(
   }
 );
 
+router.get("/twitter", passport.authenticate("twitter"));
+
+router.get(
+  "/twitter/whisper",
+  passport.authenticate("twitter", { failureRedirect: "/login" }),
+  function (req, res) {
+    res.redirect("/secrets");
+  }
+);
+
 router
   .route("/register")
   .get((req, res) => {
