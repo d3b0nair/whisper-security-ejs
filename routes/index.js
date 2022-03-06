@@ -1,15 +1,22 @@
 const router = require("express").Router();
-const { ensureAuth, ensureGuest } = require("../middleware/auth");
+const User = require("../models/User");
 
-router.get("/", ensureGuest, (req, res) => {
+router.get("/", (req, res) => {
   res.render("home");
 });
 
-router.route("/secrets", ensureAuth).get((req, res) => {
-  if (req.isAuthenticated()) {
-    res.render("secrets");
-  } else {
-    res.redirect("/auth/login");
-  }
+router.route("/secrets").get((req, res) => {
+  User.find({ secrets: { $ne: null } }, (err, foundUsers) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundUsers) {
+        const allSecrets = foundUsers.map((user) =>
+          user.secrets.map((secret) => secret)
+        );
+        res.render("secrets", { secrets: allSecrets[0] });
+      }
+    }
+  });
 });
 module.exports = router;

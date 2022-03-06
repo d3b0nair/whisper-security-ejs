@@ -8,6 +8,7 @@ const userSchema = new Schema({
   twitter_id: String,
   email: String,
   password: String,
+  secrets: [String],
 });
 
 userSchema.plugin(passportLocalMongoose);
